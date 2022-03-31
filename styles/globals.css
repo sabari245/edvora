@@ -1,3 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap");
+
 html,
 body {
   padding: 0;
@@ -13,4 +19,90 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+@font-face {
+  font-family: "SF Pro Display";
+  src: url("../assets/SF-Pro-Display-Bold.otf") format("opentype");
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: "SF Pro Display";
+  src: url("../assets/SF-Pro-Display-Light.otf") format("opentype");
+  font-weight: lighter;
+  font-style: normal;
+}
+
+@keyframes fade {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@layer utilities {
+  .sfpro {
+    font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, Segoe UI,
+      Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
+      sans-serif;
+  }
+  .inter {
+    font-family: "Inter", sans-serif;
+  }
+  .animate-fade {
+    animation: fade infinite 2s;
+  }
+}
+
+.card-area-height {
+  height: calc(100vh - 8rem);
+}
+
+.scrollable {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.scrollable::-webkit-scrollbar {
+  width: 0.2rem;
+}
+.scrollable::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scrollable::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 0.2rem;
+}
+
+.current-page {
+  color: #fff;
+  position: relative;
+  font-weight: 700;
+}
+
+.current-page::before {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 0.2rem;
+  background-color: #fff;
+}
+
+.filter_underline {
+  position: relative;
+}
+
+.filter_underline::before {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #cbcbcb;
 }
