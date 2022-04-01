@@ -99,30 +99,6 @@ export default function Home() {
     if (data) {
       let contains_city = false;
 
-      /*
-      input:
-      1 ) {
-        "tamil nadu": ["chennai", "madurai", "coimbatore"]
-        "kerala": ["kochi", "thiruvananthapuram"]
-        "karnataka": ["bangalore", "mangalore"]
-      }
-      2 ) [tamilnadu, chennai, karnataka]
-
-      output:
-        [chennai, karnataka]
-
-
-      algorithm:
-      state = filter(input 2)
-      city = filter(input 2)
-      loop through each city as a
-        loop through each state as b
-          if input1[b].contains(a)
-            remove the b from state
-      
-      give state + city as the result
-      */
-
       let state = filter.filter((each) => {
         return each in locality;
       });
