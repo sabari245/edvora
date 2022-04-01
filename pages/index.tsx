@@ -173,14 +173,18 @@ export default function Home() {
       <div className="scrollable card-area-height overflow-y-scroll">
         {ride &&
           router.query.page &&
-          ride[router.query.page].map((each, index) => {
-            return <Card key={index} data={each} user={user} />;
-          })}
-        {router.query.page && ride[router.query.page].length == 0 && (
-          <div className="flex justify-center items-center w-full text-2xl inter h-full text-nav-link">
-            <div className="text-center">No rides to show</div>
-          </div>
-        )}
+          ride[typeof router.query.page === "string" && router.query.page].map(
+            (each, index) => {
+              return <Card key={index} data={each} user={user} />;
+            }
+          )}
+        {router.query.page &&
+          ride[typeof router.query.page === "string" && router.query.page]
+            .length == 0 && (
+            <div className="flex justify-center items-center w-full text-2xl inter h-full text-nav-link">
+              <div className="text-center">No rides to show</div>
+            </div>
+          )}
       </div>
     </div>
   );
