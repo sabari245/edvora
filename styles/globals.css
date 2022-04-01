@@ -62,10 +62,6 @@ a {
   height: calc(100vh - 8rem);
 }
 
-.scrollable {
-  overflow-x: hidden;
-  overflow-y: auto;
-}
 .scrollable::-webkit-scrollbar {
   width: 0.2rem;
 }

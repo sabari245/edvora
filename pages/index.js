@@ -10,6 +10,7 @@ export default function Home() {
   const [ride, setRide] = useState({ home: [], upcoming: [], past: [] });
   const [data, setData] = useState(null);
   const [locality, setLocality] = useState(null);
+  const [filter, setFilter] = useState([]);
 
   // this function will sort the data, split it into 3 arrays based on the date and save it
   function organizer(data) {
@@ -95,6 +96,65 @@ export default function Home() {
   }, [user]);
 
   useEffect(() => {
+    if (data) {
+      let contains_city = false;
+
+      /*
+      input:
+      1 ) {
+        "tamil nadu": ["chennai", "madurai", "coimbatore"]
+        "kerala": ["kochi", "thiruvananthapuram"]
+        "karnataka": ["bangalore", "mangalore"]
+      }
+      2 ) [tamilnadu, chennai, karnataka]
+
+      output:
+        [chennai, karnataka]
+
+
+      algorithm:
+      state = filter(input 2)
+      city = filter(input 2)
+      loop through each city as a
+        loop through each state as b
+          if input1[b].contains(a)
+            remove the b from state
+      
+      give state + city as the result
+      */
+
+      let state = filter.filter((each) => {
+        return each in locality;
+      });
+      let city = filter.filter((each) => {
+        return !(each in locality);
+      });
+
+      for (let a of city) {
+        for (let b of state) {
+          if (locality[b].includes(a)) {
+            state.splice(state.indexOf(b), 1);
+          }
+        }
+      }
+
+      let new_filter = [...state, ...city];
+
+      console.log(new_filter);
+
+      organizer(
+        data.filter((each) => {
+          return (
+            new_filter.length === 0 ||
+            new_filter.includes(each.city) ||
+            new_filter.includes(each.state)
+          );
+        })
+      );
+    }
+  }, [filter]);
+
+  useEffect(() => {
     if (!router.query.page) {
       router.push("/?page=home", undefined, { shallow: true });
     }
@@ -103,14 +163,20 @@ export default function Home() {
   return (
     <div className="bg-body h-screen w-screen">
       <Navbar setUser={setUser} user={user} />
-      <Pages router={router} locality={locality} />
-      <div className="scrollable card-area-height">
+      <Pages
+        router={router}
+        locality={locality}
+        filters={filter}
+        setFilters={setFilter}
+        ride={ride}
+      />
+      <div className="scrollable card-area-height overflow-y-scroll">
         {ride &&
           router.query.page &&
-          ride[router.query.page].map((each) => {
-            return <Card key={each.id} data={each} user={user} />;
+          ride[router.query.page].map((each, index) => {
+            return <Card key={index} data={each} user={user} />;
           })}
-        {ride[router.query.page].length == 0 && (
+        {router.query.page && ride[router.query.page].length == 0 && (
           <div className="flex justify-center items-center w-full text-2xl inter h-full text-nav-link">
             <div className="text-center">No rides to show</div>
           </div>
